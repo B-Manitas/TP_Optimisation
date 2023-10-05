@@ -3,6 +3,14 @@ import numpy as np
 
 
 class Graph:
+    """
+    Class to represent a graph
+
+    Args:
+        path (str): path to the adjacency matrix csv file
+        val_node_not_connected (int): value of the adjacency matrix for nodes not connected. Default: -1
+    """
+
     def __init__(self, path: str, val_node_not_connected: int = -1) -> None:
         self.df_adjacency = None
         self.node_not_connected = val_node_not_connected
@@ -11,15 +19,43 @@ class Graph:
             self.set_df_adjacency(path)
 
     def set_df_adjacency(self, path: str) -> None:
+        """
+        Set the adjacency matrix from a csv file
+
+        Args:
+            path (str): path to the adjacency matrix csv file
+        """
         self.df_adjacency = pd.read_csv(path, header=None, dtype=int)
 
-    def get_previous_nodes_set(self, node: int) -> list:
+        """
+        Get the set of previous nodes of a node
+
+        Args:
+            node (int): node to get the previous nodes
+
+        Returns:
+            set: set of previous nodes of the node
+        """
         return set(self.df_adjacency[node][self.df_adjacency[node] > self.node_not_connected].index)
 
-    def get_next_nodes_set(self, node: int) -> list:
+        """
+        Get the set of next nodes of a node
+
+        Args:
+            node (int): node to get the next nodes
+
+        Returns:
+            set: set of next nodes of the node
+        """
         return set(self.df_adjacency[self.df_adjacency[node] > self.node_not_connected].index)
 
-    def find_shorter_path(self) -> dict:
+        """
+        Find the shorter path in a graph without cycles
+
+        Returns:
+            dict: dict with the distance of the shorter path
+            dict: dict with the previous node of each node in the shorter path
+        """
         first_node = self.df_adjacency.index[0]
         delta = {first_node: 0}
         shorter_path = {first_node: first_node}
