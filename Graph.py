@@ -27,6 +27,7 @@ class Graph:
         """
         self.df_adjacency = pd.read_csv(path, header=None, dtype=int)
 
+    def get_previous_nodes_set(self, node: int) -> set:
         """
         Get the set of previous nodes of a node
 
@@ -38,6 +39,7 @@ class Graph:
         """
         return set(self.df_adjacency[node][self.df_adjacency[node] > self.node_not_connected].index)
 
+    def get_next_nodes_set(self, node: int) -> set:
         """
         Get the set of next nodes of a node
 
@@ -49,6 +51,7 @@ class Graph:
         """
         return set(self.df_adjacency[self.df_adjacency[node] > self.node_not_connected].index)
 
+    def find_shorter_path(self):
         """
         Find the shorter path in a graph without cycles
 
