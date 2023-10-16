@@ -20,7 +20,7 @@ class Finance:
         # Throw an error if max_iter less than 1.
         if max_iter <= 0:
             raise Exception(
-                "The 'max_iter' argument must be greather than 1. Actual :" + max_iter)
+                "The 'max_iter' argument must be greather than 0. Actual :" + max_iter)
 
         self.max_iter = max_iter
 
