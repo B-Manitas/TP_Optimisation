@@ -5,6 +5,8 @@ from Finance import Finance
 print("==========")
 print("TP1")
 graph = Graph(path="data/adjacency_matrix.csv")
+is_cycle = graph.is_cyclic()
+print(f"Is there a cycle in the graph ? {is_cycle}")
 shorter_path = graph.find_shorter_path()
 print(f"The shorter path is {shorter_path[1]}.")
 print(f"The valuation associates to this shorter path is {shorter_path[0]}.")
@@ -13,7 +15,7 @@ print(f"The valuation associates to this shorter path is {shorter_path[0]}.")
 print("\n==========")
 print("PROJET FINANCE")
 
-p, initial_currency = 1, "EURO"
+p, initial_currency = 3, "EURO"
 
 finance = Finance(path_df="data/currency.csv",
                   max_iter=p, 

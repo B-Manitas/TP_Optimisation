@@ -51,9 +51,50 @@ class Graph:
         """
         return set(self.df_adjacency[self.df_adjacency[node] > self.node_not_connected].index)
 
+    def is_cyclic(self) -> bool:
+        """
+        Check if a graph is cyclic (TP1: Question 2)
+
+        Returns:
+            bool: True if the graph is cyclic, False otherwise
+        """
+        # Set of all nodes. (Equivalent to M in the TP).
+        set_of_visited_nodes = set()
+
+        # Set of visited nodes. (Equivalent to X in the TP).
+        set_of_nodes = set(self.df_adjacency.index)
+        df_adjency = self.df_adjacency.copy()
+
+        while set_of_nodes - set_of_visited_nodes != set():
+            xi = None
+
+            # Get a node that is not visited
+            for node in set_of_nodes - set_of_visited_nodes:
+                if self.get_next_nodes_set(node) == set():
+                    xi = node
+                    break
+
+            # Remove xi everywhere it appears in next nodes of nodes not visited
+            for node in set_of_nodes - set_of_visited_nodes:
+                self.df_adjacency[node][xi] = self.node_not_connected
+
+            # Add xi to the set of visited nodes
+            set_of_visited_nodes.add(xi)
+
+        # Set the adjacency matrix to the original one
+        self.df_adjacency = df_adjency
+
+        # If all nodes are visited, the graph is not cyclic
+        if set_of_visited_nodes == set_of_nodes:
+            return False
+
+        # If not, the graph is cyclic
+        else:
+            return True
+
     def find_shorter_path(self):
         """
-        Find the shorter path in a graph without cycles
+        Find the shorter path in a graph without cycles (TP1: Question 3)
 
         Returns:
             dict: dict with the distance of the shorter path
